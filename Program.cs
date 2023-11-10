@@ -152,44 +152,26 @@ namespace CS_HW_13
             Console.WriteLine("По специальности \"программист\" обучается " + numberOfProgrammers + " студентов.");
             Console.WriteLine("По специальности \"менеджер\" обучается " + numberOfManagers + " студентов.");
             Console.WriteLine("По специальности \"инженер\" обучается " + numberOfIngeners + " студентов.");
+
             Console.WriteLine("*********| Уникальные предметы |*********");
+
             List<string> subjects = new List<string>();
-            List<string> uniqueSubjects = new List<string>();
-            foreach (var student in students)
+
+            foreach(var item in students)
             {
-                foreach(string subject in student.Subjects)
+                for(int i = 0; i < item.Subjects.Count; i++)
                 {
-                    subjects.Add(subject);
+                    subjects.Add(item.Subjects[i]);
                 }
-            }
-            int countOfSubjects = 0;
-            for (int i = 0; i < subjects.Count() - 1; )
-            {
-                string iSubject = subjects[i];
-                for(int j = i + 1; j < subjects.Count(); )
-                {
-                    string jSubject = subjects[j];
-                    if (iSubject.Equals(jSubject))
-                    {
-                        countOfSubjects++;
-                        subjects.Remove(subjects[j]);
-                        continue;
-                    }
-                    j++;
-                }
-                if(countOfSubjects >= 1)
-                {
-                    subjects.Remove(subjects[i]);
-                    continue;
-                }
-                i++;
-                countOfSubjects = 0;
             }
 
-            foreach(string subject in subjects)
+            var sub = subjects.GroupBy(s => s).Where(s => s.Count() == 1).Select(s => s.Key);
+            
+            foreach(var item in sub)
             {
-                Console.WriteLine(subject);
+                Console.WriteLine(item);
             }
+
 
             Console.WriteLine("*********| Студенты с максимальным количеством изучаемых предметов |*********");
             int maxCountSubjects = students.Max(s => s.Subjects.Count());
